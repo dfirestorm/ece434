@@ -1,10 +1,11 @@
 """
-Etch A Sketch.
+Etch A Sketch.`
 
 Authors Donald Hau.
 
 """
-# !/usr/bin/env python
+# !/usr/bin/env python3
+chmod +x
 
 
 def main():
