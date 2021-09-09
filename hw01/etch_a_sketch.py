@@ -4,8 +4,8 @@ Etch A Sketch.
 Authors Donald Hau.
 
 """
-#!/usr/bin/env python
-chmod +x
+# !/usr/bin/env python
+
 
 def main():
     play()
@@ -38,10 +38,11 @@ class EtchASketch:
             self.printString += str(i)
         self.workingArray.append(self.printString)
         for k in range(self.maxY):
-            append_string = str(k) + " "*self.maxX
+            append_string = str(k) + " " * self.maxX
             self.workingArray.append(append_string)
 
     def write_cursor(self):
+        # very long line to effectively just replace the character at the cursor x and y value with an X
         self.workingArray[self.y + 1] = self.workingArray[self.y + 1][0:self.x + 1] + "X" + self.workingArray[
                                                                                                 self.y + 1][self.x + 2:]
 
