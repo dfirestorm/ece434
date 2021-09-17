@@ -42,9 +42,9 @@ class EtchASketch:
         self.window.refresh()
         self.maxY = self.window.getch()-48 # correct for ascii values
         curses.noecho()
-        self.window.move(1, 1)
         self.array_setup()
         self.render()
+        self.window.move(1, 1)
 
     def array_setup(self):
         self.printString = "  "
@@ -88,10 +88,6 @@ class EtchASketch:
             if response == 121: # y
                 self.ended = True
 
-        else:
-            print("press w to move up, a to move left, s to move down, and d to move right.")
-            print("e will shake and o will let you exit or change board size")
-
     def render(self):
         self.window.clear()
         print_string = ""
@@ -120,7 +116,12 @@ def play():
     while s != "n":
         game = EtchASketch(window)
         game.run()
-        s = str(input("Would you like to change board size? y/n"))[0]
+        s = self.window.move(self.window.getyx()[0] + 1, 0)
+        self.window.addstr("Would you like to change board size? y/n ")
+        self.window.refresh()
+        response = self.window.getch()
+        if response != 121: # y
+            s = "n"
     curses.nocbreak()
     curses.echo()
     curses.endwin()
