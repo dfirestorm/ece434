@@ -89,6 +89,7 @@ class EtchASketch:
                 print_string += " "
             self.window.addstr(print_string)
             print_string = ""
+        self.window.refresh()
 
     def run(self):
         self.get_input()
@@ -100,14 +101,12 @@ class EtchASketch:
 def play():
     window = curses.initscr()
     curses.cbreak()
-    curses.keypad(True)
     s = ""
     while s != "n":
         game = EtchASketch(window)
         game.run()
         s = str(input("Would you like to change board size? y/n"))[0]
     curses.nocbreak()
-    curses.keypad(False)
     curses.echo()
     curses.endwin()
 
