@@ -61,28 +61,31 @@ class EtchASketch:
     def get_input(self):
         input_char = self.window.getch()
         xy = self.window.getyx()
-        if input_char == 'w':
+        if input_char == 119: # w key in ascii
             if xy[0] > 1:
                 self.window.move(xy[0]-1, xy[1])
             self.write_cursor()
-        elif input_char == 'a':
+        elif input_char == 97: # a key in ascii
             if xy[1] > 1:
                 self.window.move(xy[0], xy[1]-1)
             self.write_cursor()
-        elif input_char == 's':
+        elif input_char == 115: # s key in ascii
             if xy[0] < self.maxY:
                 self.window.move(xy[0] + 1, xy[1])
             self.write_cursor()
-        elif input_char == 'd':
+        elif input_char == 100: # d key in ascii
             if xy[1] < self.maxY:
                 self.window.move(xy[0], xy[1] + 1)
             self.write_cursor()
-        elif input_char == 'e':
+        elif input_char == 101: # e key in ascii
             self.window.clear()
             self.array_setup()
-        elif input_char == 'o':
-            response = "Would you like to exit or change board size? y/n "
-            if response == 'y':
+        elif input_char == (111 or KEY_BACKSPACE): # o or backspace
+            self.window.move(self.maxY + 1, 0)
+            self.window.addstr("Would you like to exit or change board size? y/n ")
+            self.window.refresh()
+            response = self.window.getch()
+            if response == 121: # y
                 self.ended = True
 
         else:
