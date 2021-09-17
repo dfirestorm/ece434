@@ -32,11 +32,17 @@ class EtchASketch:
     def setup(self):
         self.window.addstr("press w to move up, a to move left, s to move down, and d to move right.")
         self.window.addstr("e will shake and o will ask to exit")
-        self.maxX = int(input("How wide should the grid be? "))
-        self.maxY = int(input("How tall should the grid be? "))
+        self.window.addstr("How wide should the grid be? ")
+        self.window.refresh()
+        self.maxX = self.window.getch()
+        self.window.addstr("e will shake and o will ask to exit")
+        self.window.addstr("How tall should the grid be? ")
+        self.window.refresh()
+        self.maxY = self.window.getch()
         curses.noecho()
         self.window.move(1, 1)
         self.array_setup()
+        self.render()
 
     def array_setup(self):
         self.printString = "  "
