@@ -98,12 +98,12 @@ class EtchASketch:
         self.window.move(0, 0)
         for k in range(len(self.workingArray)):
             xy = self.window.getyx()
-            self.window.move(xy[0] + 1, xy[1])
             for j in range(len(self.workingArray[k])):
                 print_string += self.workingArray[k][j]
                 print_string += " "
             self.window.addstr(print_string)
             print_string = ""
+            self.window.move(xy[0] + 1, 0)
         self.window.refresh()
 
     def run(self):
