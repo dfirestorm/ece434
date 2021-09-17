@@ -95,10 +95,10 @@ class EtchASketch:
     def render(self):
         self.window.clear()
         print_string = ""
+        self.window.move(0, 0)
         for k in range(len(self.workingArray)):
-            self.window.move(0, 0)
-            if k < self.maxY + 1:
-                self.window.move(k, 0)
+            xy = self.window.getyx()
+            self.window.move(xy[0] + 1, xy[1])
             for j in range(len(self.workingArray[k])):
                 print_string += self.workingArray[k][j]
                 print_string += " "
