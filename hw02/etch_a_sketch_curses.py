@@ -94,7 +94,7 @@ class EtchASketch:
         print_string = ""
         for k in range(len(self.workingArray)):
             self.window.move(0, 0)
-            if k < SCREEN_HEIGHT:
+            if k < self.maxY + 1:
                 self.window.move(k, 0)
             for j in range(len(self.workingArray[k])):
                 print_string += self.workingArray[k][j]
