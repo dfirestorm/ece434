@@ -36,11 +36,11 @@ class EtchASketch:
         self.window.move(2, 0)
         self.window.addstr("How wide should the grid be? ")
         self.window.refresh()
-        self.maxX = self.window.getch()
+        self.maxX = self.window.getch()-48 # correct for ascii values
         self.window.move(3, 0)
         self.window.addstr("How tall should the grid be? ")
         self.window.refresh()
-        self.maxY = self.window.getch()
+        self.maxY = self.window.getch()-48 # correct for ascii values
         curses.noecho()
         self.window.move(1, 1)
         self.array_setup()
