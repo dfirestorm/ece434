@@ -57,6 +57,8 @@ class EtchASketch:
 
     def write_cursor(self):
         self.window.addch('X')
+        xy = self.window.getyx()
+        self.window.move(xy[0]-1, xy[1])
 
     def get_input(self):
         input_char = self.window.getch()
@@ -90,7 +92,6 @@ class EtchASketch:
 
     def render(self):
         orig_pos = self.window.getyx()
-        self.window.clear()
         print_string = ""
         self.window.move(0, 0)
         for k in range(len(self.workingArray)):
