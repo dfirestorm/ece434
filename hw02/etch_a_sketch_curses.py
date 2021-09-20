@@ -83,7 +83,7 @@ class EtchASketch:
             self.write_cursor()
         elif input_char == 101: # e key in ascii
             self.window.clear()
-            self.window.move(1,1)
+            self.window.move(xy[0], xy[1])
         elif input_char == (111 or curses.KEY_BACKSPACE): # o or backspace
             self.window.move(self.maxY + 1, 0)
             self.window.addstr("Would you like to exit or change board size? y/n ")
