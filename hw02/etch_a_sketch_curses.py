@@ -23,6 +23,7 @@ class EtchASketch:
         self.x = 0
         self.y = 0
         self.workingArray = list()
+        self.baseArray = list()
         self.status = []
         self.setup()
         self.render()
@@ -51,14 +52,21 @@ class EtchASketch:
         for i in range(self.maxX):
             self.printString += str(i)
         self.workingArray.append(self.printString)
+        self.baseArray = self.workingArray
         for k in range(self.maxY):
             append_string = str(k)
+            self.baseArray.append(append_string)
+            append_string = str(k) + self.maxX * " "
             self.workingArray.append(append_string)
         self.window.clear()
+        
 
     def write_cursor(self):
-        self.window.addch('X')
         xy = self.window.getyx()
+        # very long line to effectively just replace the character at the cursor x and y value with an X
+        # not used since taking advantage of curses not rewriting screen
+        # self.workingArray[xy[1] + 1] = self.workingArray[xy[1] + 1][0:xy[0] + 1] + "X" + self.workingArray[xy[0] + 1][xy[1] + 2:]
+        self.window.addch('X')
         self.window.move(xy[0], xy[1]-1)
 
     def get_input(self):
@@ -70,18 +78,21 @@ class EtchASketch:
             self.write_cursor()
         elif input_char == 97: # a key in ascii
             if xy[1] > 1:
-                self.window.move(xy[0], xy[1]-1)
+                # self.window.move(xy[0], xy[1]-1) for if you are using smaller scale
+                self.window.move(xy[0], xy[1]-2) 
             self.write_cursor()
         elif input_char == 115: # s key in ascii
-            if xy[0] < self.maxY:
+            if xy[0]+1 < self.maxY:
                 self.window.move(xy[0] + 1, xy[1])
             self.write_cursor()
         elif input_char == 100: # d key in ascii
-            if xy[1] < self.maxY:
-                self.window.move(xy[0], xy[1] + 1)
+            if xy[1]+1 < self.maxX * 2:
+                # self.window.move(xy[0], xy[1]-2) for if you are using smaller scale
+                self.window.move(xy[0], xy[1] + 2)
             self.write_cursor()
         elif input_char == 101: # e key in ascii
             self.window.clear()
+            self.workingArray = self.baseArray
             self.window.move(1,1)
         elif input_char == (111 or curses.KEY_BACKSPACE): # o or backspace
             self.window.move(self.maxY + 1, 0)
@@ -90,15 +101,17 @@ class EtchASketch:
             response = self.window.getch()
             if response == 121: # y
                 self.ended = True
+            else
+                self.window.move(xy[0], xy[1])
 
     def render(self):
         orig_pos = self.window.getyx()
         print_string = ""
         self.window.move(0, 0)
-        for k in range(len(self.workingArray)):
+        for k in range(len(self.baseArray)):
             xy = self.window.getyx()
-            for j in range(len(self.workingArray[k])):
-                print_string += self.workingArray[k][j]
+            for j in range(len(self.baseArray[k])):
+                print_string += self.baseArray[k][j]
             self.window.addstr(print_string)
             print_string = ""
             self.window.move(xy[0] + 1, 0)
