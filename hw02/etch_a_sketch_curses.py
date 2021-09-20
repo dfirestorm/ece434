@@ -12,6 +12,7 @@ import curses
 
 def main():
     curses.wrapper(play())
+    curses.echo()
 
 
 class EtchASketch:
