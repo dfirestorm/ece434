@@ -101,7 +101,7 @@ class EtchASketch:
             response = self.window.getch()
             if response == 121: # y
                 self.ended = True
-            else
+            else:
                 self.window.move(xy[0], xy[1])
 
     def render(self):
