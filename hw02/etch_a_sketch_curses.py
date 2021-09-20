@@ -47,7 +47,7 @@ class EtchASketch:
         self.window.move(1, 1)
 
     def array_setup(self):
-        self.printString = "  "
+        self.printString = " "
         for i in range(self.maxX):
             self.printString += str(i)
         self.workingArray.append(self.printString)
@@ -82,6 +82,7 @@ class EtchASketch:
             self.write_cursor()
         elif input_char == 101: # e key in ascii
             self.window.clear()
+            self.window.move(1,1)
         elif input_char == (111 or curses.KEY_BACKSPACE): # o or backspace
             self.window.move(self.maxY + 1, 0)
             self.window.addstr("Would you like to exit or change board size? y/n ")
@@ -98,7 +99,6 @@ class EtchASketch:
             xy = self.window.getyx()
             for j in range(len(self.workingArray[k])):
                 print_string += self.workingArray[k][j]
-                print_string += " "
             self.window.addstr(print_string)
             print_string = ""
             self.window.move(xy[0] + 1, 0)
