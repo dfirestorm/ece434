@@ -34,11 +34,11 @@ class EtchASketch:
         self.window.move(1, 0)
         self.window.addstr("e will shake and o will ask to exit")
         self.window.move(2, 0)
-        self.window.addstr("How wide should the grid be? ")
+        self.window.addstr("How wide should the grid be? (1-9) ")
         self.window.refresh()
         self.maxX = self.window.getch()-48 # correct for ascii values
         self.window.move(3, 0)
-        self.window.addstr("How tall should the grid be? ")
+        self.window.addstr("How tall should the grid be? (1-9) ")
         self.window.refresh()
         self.maxY = self.window.getch()-48 # correct for ascii values
         curses.noecho()
@@ -66,11 +66,11 @@ class EtchASketch:
         input_char = self.window.getch()
         xy = self.window.getyx()
         if input_char == 119: # w key in ascii
-            if xy[0] > 0:
+            if xy[0] > 1:
                 self.window.move(xy[0]-1, xy[1])
             self.write_cursor()
         elif input_char == 97: # a key in ascii
-            if xy[1] > 0:
+            if xy[1] > 1:
                 self.window.move(xy[0], xy[1]-1) 
             self.write_cursor()
         elif input_char == 115: # s key in ascii
