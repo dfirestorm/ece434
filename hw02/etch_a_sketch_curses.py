@@ -61,34 +61,35 @@ class EtchASketch:
     def get_input(self):
         input_char = self.window.getch()
         xy = self.window.getyx()
-        if input_char == 87: # w key in ascii
+        if input_char == 119: # w key in ascii
             if xy[0] > 1:
                 self.window.move(xy[0]-1, xy[1])
             self.write_cursor()
-        elif input_char == 65: # a key in ascii
+        elif input_char == 97: # a key in ascii
             if xy[1] > 1:
                 self.window.move(xy[0], xy[1]-1)
             self.write_cursor()
-        elif input_char == 83: # s key in ascii
+        elif input_char == 115: # s key in ascii
             if xy[0] < self.maxY:
                 self.window.move(xy[0] + 1, xy[1])
             self.write_cursor()
-        elif input_char == 68: # d key in ascii
+        elif input_char == 100: # d key in ascii
             if xy[1] < self.maxY:
                 self.window.move(xy[0], xy[1] + 1)
             self.write_cursor()
-        elif input_char == 69: # e key in ascii
+        elif input_char == 101: # e key in ascii
             self.window.clear()
             self.array_setup()
-        elif input_char == (79 or curses.KEY_BACKSPACE): # o or backspace
+        elif input_char == (112 or curses.KEY_BACKSPACE): # o or backspace
             self.window.move(self.maxY + 1, 0)
             self.window.addstr("Would you like to exit or change board size? y/n ")
             self.window.refresh()
             response = self.window.getch()
-            if response == 89: # y
+            if response == 121: # y
                 self.ended = True
 
     def render(self):
+        orig_pos = self.window.getyx()
         self.window.clear()
         print_string = ""
         self.window.move(0, 0)
@@ -100,6 +101,7 @@ class EtchASketch:
             self.window.addstr(print_string)
             print_string = ""
             self.window.move(xy[0] + 1, 0)
+        self.window.move(orig_pos[0], orig_pos[1])
         self.window.refresh()
 
     def run(self):
@@ -120,7 +122,7 @@ def play():
         window.addstr("Would you like to change board size? y/n ")
         window.refresh()
         response = window.getch()
-        if response != 89: # y
+        if response != 121: # y
             s = "n"
     curses.nocbreak()
     curses.echo()
