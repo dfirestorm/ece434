@@ -66,19 +66,19 @@ class EtchASketch:
         input_char = self.window.getch()
         xy = self.window.getyx()
         if input_char == 119: # w key in ascii
-            if xy[0] > 1:
+            if xy[0] > 0:
                 self.window.move(xy[0]-1, xy[1])
             self.write_cursor()
         elif input_char == 97: # a key in ascii
-            if xy[1] > 1:
+            if xy[1] > 0:
                 self.window.move(xy[0], xy[1]-1) 
             self.write_cursor()
         elif input_char == 115: # s key in ascii
-            if xy[0]+1 < self.maxY:
+            if xy[0] < self.maxY:
                 self.window.move(xy[0] + 1, xy[1])
             self.write_cursor()
         elif input_char == 100: # d key in ascii
-            if xy[1]+1 < self.maxX:
+            if xy[1] < self.maxX:
                 self.window.move(xy[0], xy[1] + 1)
             self.write_cursor()
         elif input_char == 101: # e key in ascii
