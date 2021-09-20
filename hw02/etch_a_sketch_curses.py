@@ -48,11 +48,11 @@ class EtchASketch:
         self.window.move(1, 1)
 
     def array_setup(self):
-        self.printString = " "
+        printString = " "
         for i in range(self.maxX):
-            self.printString += str(i)
-        self.workingArray.append(self.printString)
-        self.baseArray = self.workingArray
+            printString += str(i)
+        self.workingArray.append(printString)
+        self.baseArray.append(printString)
         for k in range(self.maxY):
             append_string = str(k)
             self.baseArray.append(append_string)
