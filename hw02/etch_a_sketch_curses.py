@@ -31,7 +31,7 @@ class EtchASketch:
         self.guessed = ""
 
     def setup(self):
-        self.windoow.addstr("press w to move up, a to move left, s to move down, and d to move right.")
+        self.window.addstr("press w to move up, a to move left, s to move down, and d to move right.")
         self.window.move(1, 0)
         self.window.addstr("e will shake and o will ask to exit")
         self.window.move(2, 0)
