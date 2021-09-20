@@ -18,7 +18,6 @@ def main():
 class EtchASketch:
     def __init__(self, window):
         self.window = window
-        self.printString = "  "
         self.maxX = 0
         self.maxY = 0
         self.x = 0
@@ -48,7 +47,7 @@ class EtchASketch:
         self.window.move(1, 1)
 
     def array_setup(self):
-        printString = "  "
+        printString = " "
         for i in range(self.maxX):
             printString += str(i)
         self.baseArray.append(printString)
@@ -61,7 +60,7 @@ class EtchASketch:
     def write_cursor(self):
         xy = self.window.getyx()
         self.window.addch('X')
-        self.window.move(xy[0], xy[1]-1)
+        self.window.move(xy[0], xy[1])
 
     def get_input(self):
         input_char = self.window.getch()
