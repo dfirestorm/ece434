@@ -52,7 +52,7 @@ class EtchASketch:
             printString += str(i)
         self.baseArray.append(printString)
         for k in range(self.maxY):
-            append_string = str(k) + " "
+            append_string = str(k)
             self.baseArray.append(append_string)
         self.window.clear()
         
