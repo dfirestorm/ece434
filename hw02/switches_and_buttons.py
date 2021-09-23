@@ -2,23 +2,33 @@
 import Adafruit_BBIO.GPIO as GPIO
 import time
 
-buttonP="PAUSE"  # PAUSE or MODE
-buttonM="MODE"
+button1="P8_11"
+button2="P8_12"
+button3="P8_15"
+button4="P8_16"
 
-LEDp   ="RED"
-LEDm   ="GREEN"
+LEDr   ="P9_12"
+LEDy   ="P9_15"
+LEDg   ="P9_23"
+LEDb   ="P8_26"
 
 # Set the GPIO pins:
-GPIO.setup(LEDp,    GPIO.OUT)
-GPIO.setup(LEDm,    GPIO.OUT)
-GPIO.setup(buttonP, GPIO.IN)
-GPIO.setup(buttonM, GPIO.IN)
+GPIO.setup(LEDr,    GPIO.OUT)
+GPIO.setup(LEDy,    GPIO.OUT)
+GPIO.setup(LEDg,    GPIO.OUT)
+GPIO.setup(LEDb,    GPIO.OUT)
+GPIO.setup(button1, GPIO.IN)
+GPIO.setup(button2, GPIO.IN)
+GPIO.setup(button3, GPIO.IN)
+GPIO.setup(button4, GPIO.IN)
 
 # Turn on both LEDs
-GPIO.output(LEDp, 1)
-GPIO.output(LEDm, 1)
+GPIO.output(LEDr, 1)
+GPIO.output(LEDy, 1)
+GPIO.output(LEDg, 1)
+GPIO.output(LEDb, 1)
 # Map buttons to LEDs
-map = {buttonP: LEDp, buttonM: LEDm}
+map = {button1: LEDr, button2: LEDy, button3: LEDg, button4: LEDb}
 
 def updateLED(channel):
     print("channel = " + channel)
@@ -28,9 +38,11 @@ def updateLED(channel):
 
 print("Running...")
 
-GPIO.add_event_detect(buttonP, GPIO.BOTH, callback=updateLED) 
+GPIO.add_event_detect(button1, GPIO.BOTH, callback=updateLED) 
 # RISING, FALLING or BOTH
-GPIO.add_event_detect(buttonM, GPIO.BOTH, callback=updateLED)
+GPIO.add_event_detect(button2, GPIO.BOTH, callback=updateLED)
+GPIO.add_event_detect(button3, GPIO.BOTH, callback=updateLED)
+GPIO.add_event_detect(button4, GPIO.BOTH, callback=updateLED)
 
 try:
     while True:
