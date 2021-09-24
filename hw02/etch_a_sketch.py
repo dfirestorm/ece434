@@ -8,13 +8,16 @@ Authors Donald Hau.
 
 
 import curses
+import Adafruit_BBIO.GPIO as GPIO
+import time
 
 
 def main():
+    button_setup()
     curses.wrapper(play())
     curses.echo()
-
-
+    
+    
 class EtchASketch:
     def __init__(self, window):
         self.window = window
@@ -25,6 +28,7 @@ class EtchASketch:
         self.baseArray = list()
         self.status = []
         self.setup()
+        self.button_setup()
         self.render()
         self.ended = 0
         self.guessed = ""
@@ -56,28 +60,68 @@ class EtchASketch:
             self.baseArray.append(append_string)
         self.window.clear()
         
+    def button_setup():
+        self.button1="P8_11"
+        self.button2="P8_12"
+        self.button3="P8_15"
+        self.button4="P8_16"
 
+        self.LEDr   ="P9_12"
+        self.LEDy   ="P9_15"
+        self.LEDg   ="P9_23"
+        self.LEDb   ="P8_26"
+
+        # Set the GPIO pins:
+        GPIO.setup(LEDr,    GPIO.OUT)
+        GPIO.setup(LEDy,    GPIO.OUT)
+        GPIO.setup(LEDg,    GPIO.OUT)
+        GPIO.setup(LEDb,    GPIO.OUT)
+        GPIO.setup(button1, GPIO.IN)
+        GPIO.setup(button2, GPIO.IN)
+        GPIO.setup(button3, GPIO.IN)
+        GPIO.setup(button4, GPIO.IN)
+
+        # Turn on both LEDs
+        GPIO.output(LEDr, 1)
+        GPIO.output(LEDy, 1)
+        GPIO.output(LEDg, 1)
+        GPIO.output(LEDb, 1)
+        # Map buttons to LEDs
+        self.map = {button1: LEDr, button2: LEDy, button3: LEDg, button4: LEDb}
+        
     def write_cursor(self):
         xy = self.window.getyx()
         self.window.addch('X')
         self.window.move(xy[0], xy[1])
-
-    def get_input(self):
-        input_char = self.window.getch()
+    
+    def button_input():
+    GPIO.add_event_detect(button1, GPIO.BOTH, callback=self.get_input) 
+    # RISING, FALLING or BOTH
+    GPIO.add_event_detect(button2, GPIO.BOTH, callback=self.get_input)
+    GPIO.add_event_detect(button3, GPIO.BOTH, callback=self.get_input)
+    GPIO.add_event_detect(button4, GPIO.BOTH, callback=self.get_input)
+    
+    def get_input(self, channel):
+        if channel != None:
+            state = GPIO.input(channel)
+            GPIO.output(self.map[channel], state)
+            if state == False:
+                return
         xy = self.window.getyx()
-        if input_char == 119: # w key in ascii
+        input_char = None
+        if input_char == 119 or channel == self.button2: # w key in ascii
             if xy[0] > 1:
                 self.window.move(xy[0]-1, xy[1])
             self.write_cursor()
-        elif input_char == 97: # a key in ascii
+        elif input_char == 97 or channel == self.button1: # a key in ascii
             if xy[1] > 1:
                 self.window.move(xy[0], xy[1]-1) 
             self.write_cursor()
-        elif input_char == 115: # s key in ascii
+        elif input_char == 115 or channel == self.button3: # s key in ascii
             if xy[0] < self.maxY:
                 self.window.move(xy[0] + 1, xy[1])
             self.write_cursor()
-        elif input_char == 100: # d key in ascii
+        elif input_char == 100 or channel == self.button4:  # d key in ascii
             if xy[1] < self.maxX:
                 self.window.move(xy[0], xy[1] + 1)
             self.write_cursor()
@@ -93,6 +137,7 @@ class EtchASketch:
                 self.ended = True
             else:
                 self.window.move(xy[0], xy[1])
+        self.render()
 
     def render(self):
         orig_pos = self.window.getyx()
@@ -102,10 +147,11 @@ class EtchASketch:
         self.window.refresh()
 
     def run(self):
-        self.get_input()
+        self.button_input()
         while self.ended == 0:
-            self.render()
-            self.get_input()
+            # input_char = self.window.getch()
+            # get_input(None)
+            time.sleep(50)
 
 
 def play():
@@ -124,6 +170,7 @@ def play():
     curses.nocbreak()
     curses.echo()
     curses.endwin()
+    GPIO.cleanup()
 
 
 main()
