@@ -13,7 +13,6 @@ import time
 
 
 def main():
-    button_setup()
     curses.wrapper(play())
     curses.echo()
     
@@ -60,7 +59,7 @@ class EtchASketch:
             self.baseArray.append(append_string)
         self.window.clear()
         
-    def button_setup():
+    def button_setup(self):
         self.button1="P8_11"
         self.button2="P8_12"
         self.button3="P8_15"
@@ -72,34 +71,34 @@ class EtchASketch:
         self.LEDb   ="P8_26"
 
         # Set the GPIO pins:
-        GPIO.setup(LEDr,    GPIO.OUT)
-        GPIO.setup(LEDy,    GPIO.OUT)
-        GPIO.setup(LEDg,    GPIO.OUT)
-        GPIO.setup(LEDb,    GPIO.OUT)
-        GPIO.setup(button1, GPIO.IN)
-        GPIO.setup(button2, GPIO.IN)
-        GPIO.setup(button3, GPIO.IN)
-        GPIO.setup(button4, GPIO.IN)
+        GPIO.setup(self.LEDr,    GPIO.OUT)
+        GPIO.setup(self.LEDy,    GPIO.OUT)
+        GPIO.setup(self.LEDg,    GPIO.OUT)
+        GPIO.setup(self.LEDb,    GPIO.OUT)
+        GPIO.setup(self.button1, GPIO.IN)
+        GPIO.setup(self.button2, GPIO.IN)
+        GPIO.setup(self.button3, GPIO.IN)
+        GPIO.setup(self.button4, GPIO.IN)
 
         # Turn on both LEDs
-        GPIO.output(LEDr, 1)
-        GPIO.output(LEDy, 1)
-        GPIO.output(LEDg, 1)
-        GPIO.output(LEDb, 1)
+        GPIO.output(self.LEDr, 1)
+        GPIO.output(self.LEDy, 1)
+        GPIO.output(self.LEDg, 1)
+        GPIO.output(self.LEDb, 1)
         # Map buttons to LEDs
-        self.map = {button1: LEDr, button2: LEDy, button3: LEDg, button4: LEDb}
+        self.map = {self.button1: self.LEDr, self.button2: self.LEDy, self.button3: self.LEDg, self.button4: self.LEDb}
         
     def write_cursor(self):
         xy = self.window.getyx()
         self.window.addch('X')
         self.window.move(xy[0], xy[1])
     
-    def button_input():
-    GPIO.add_event_detect(button1, GPIO.BOTH, callback=self.get_input) 
-    # RISING, FALLING or BOTH
-    GPIO.add_event_detect(button2, GPIO.BOTH, callback=self.get_input)
-    GPIO.add_event_detect(button3, GPIO.BOTH, callback=self.get_input)
-    GPIO.add_event_detect(button4, GPIO.BOTH, callback=self.get_input)
+    def button_input(self):
+        GPIO.add_event_detect(self.button1, GPIO.BOTH, callback=self.get_input) 
+        # RISING, FALLING or BOTH
+        GPIO.add_event_detect(self.button2, GPIO.BOTH, callback=self.get_input)
+        GPIO.add_event_detect(self.button3, GPIO.BOTH, callback=self.get_input)
+        GPIO.add_event_detect(self.button4, GPIO.BOTH, callback=self.get_input)
     
     def get_input(self, channel):
         if channel != None:
