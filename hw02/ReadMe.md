@@ -1,5 +1,10 @@
+# hw02
 
-ReadMe is misssing
+## etch a sketch updates
+still uses command line but now it uses 4 buttons for inputs. Also uses ncurses for output to command line. 
+
+## security
+port for ssh has been changed, fail2ban has been implemented
 
 # hw02 grading
 
