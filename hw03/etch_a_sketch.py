@@ -6,8 +6,6 @@ Authors Donald Hau.
 
 """
 
-
-import curses
 import Adafruit_BBIO.GPIO as GPIO
 import smbus
 import time
@@ -19,7 +17,7 @@ def main():
 
 class EtchASketch:
     def __init__(self):
-        self.maxX = 15
+        self.maxX = 7
         self.maxY = 7
         self.x = 0
         self.y = 0
@@ -39,37 +37,56 @@ class EtchASketch:
         self.bus.write_byte_data(self.matrix, 0x81, 0)   # Disp on, blink off (p11)
         self.bus.write_byte_data(self.matrix, 0xe7, 0)   # Full brightness (page 15)
         self.array_setup()
+        self.button_setup()
 
     def array_setup(self):
         self.output = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+    
+    def button_setup(self):
+        self.button1="P8_11"
+        self.button2="P8_12"
+        self.button3="P8_15"
+        self.button4="P8_16"
 
+        GPIO.setup(self.button1, GPIO.IN)
+        GPIO.setup(self.button2, GPIO.IN)
+        GPIO.setup(self.button3, GPIO.IN)
+        GPIO.setup(self.button4, GPIO.IN)
+        
+    def button_input(self):
+        GPIO.add_event_detect(self.button1, GPIO.BOTH, callback=self.get_input) 
+        # RISING, FALLING or BOTH
+        GPIO.add_event_detect(self.button2, GPIO.BOTH, callback=self.get_input)
+        GPIO.add_event_detect(self.button3, GPIO.BOTH, callback=self.get_input)
+        GPIO.add_event_detect(self.button4, GPIO.BOTH, callback=self.get_input)
+        
     def write_cursor(self):
-        self.output[self.x] =self.output[self.x] | 2**(self.y)
+        self.output[self.x*2] =self.output[self.x*2] | 2**(self.y)
         print(self.x, self.y)
         print(self.output)
     
-        
-
-    def get_input(self):
-        input_str = str(input("Input here"))[0]
+    def get_input(self, channel):
+        if channel != None:
+            state = GPIO.input(channel)
+            if state == False:
+                return
         print("success")
-        input_char = input_str.lower()
-        if input_char == 'w':
-            if self.y > 0:
+        if channel == self.button2:
+            if self.y != 0:
                 self.y -= 1
             self.write_cursor()
-        elif input_char == 'a':
-            if self.x > 0:
-                self.x -= 2
+        elif channel == self.button1:
+            if self.x != 0:
+                self.x -= 1
             self.write_cursor()
-        elif input_char == 's':
-            if self.y < self.maxY:
+        elif channel == self.button3:
+            if self.y != self.maxY:
                 self.y += 1
             self.write_cursor()
-        elif input_char == 'd':
-            if self.x < self.maxX:
-                self.x += 2
+        elif channel == self.button4:
+            if self.x != self.maxX:
+                self.x += 1
             self.write_cursor()
         elif input_char == 'e':
             self.array_setup()
@@ -80,15 +97,17 @@ class EtchASketch:
         else:
             print("press w to move up, a to move left, s to move down, and d to move right.")
             print("e will shake and o will let you exit or change board size")
+        self.render()
 
     def render(self):
         self.bus.write_i2c_block_data(self.matrix, 0, self.output)
 
     def run(self):
-        self.get_input()
+        self.button_input()
         while self.ended == 0:
-            self.render()
-            self.get_input()
+            # get_input(None)
+            time.sleep(1/10)
+            
 
 def play():
     s = ""
