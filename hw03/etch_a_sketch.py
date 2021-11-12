@@ -58,7 +58,7 @@ class EtchASketch:
         self.encoder2.frequency = 1000
         
     def write_cursor(self):
-        self.output[self.x*2] =self.output[self.x*2] | 2**(self.y)
+        self.output[1+self.x*2] =self.output[1+self.x*2] | 2**(self.y)
         #print(self.x, self.y)
         #print(self.output)
         
@@ -95,7 +95,7 @@ class EtchASketch:
         while self.ended == 0:
             self.get_input()
             self.render()
-            time.sleep(.01)
+            time.sleep(.05)
             
 
 def play():
