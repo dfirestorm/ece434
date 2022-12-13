@@ -9,7 +9,7 @@ Authors Donald Hau.
 
 
 import curses
-
+import Adafruit_BBIO.GPIO as GPIO
 
 def main():
     curses.wrapper(play)
@@ -47,8 +47,10 @@ class EtchASketch:
         self.maxY = int(self.window.getstr())
         self.window.move(0, 0)
         curses.noecho()
+        self.button_setup()
         self.array_setup()
 
+    def button_setup
     def array_setup(self, y:int=1, x:int=3):
         self.window.clear()
         printString = "   "
@@ -66,6 +68,13 @@ class EtchASketch:
     def write_cursor(self):
         self.window.addch('X')
         self.move_cursor(0,-1)
+
+
+    def key_pressed(self,key):
+        print("channel = " + channel)
+        state = GPIO.input(channel)
+        GPIO.output(map[channel], state)
+        print(map[channel] + " Toggled")
 
     def get_input(self):        
         input_char = chr(self.window.getch())

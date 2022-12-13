@@ -1,31 +1,58 @@
-from mmap import mmap
-import time,struct
+#!/usr/bin/env python3
+"""
+Switches and Lights.
 
-GPIO1_offset = 0x4804c000
-GPIO1_size = 0x4804cfff-GPIO1_offset
-GPIO_OE = 0x134
-GPIO_SETDATAOUT = 0x194
-GPIO_CLEARDATAOUT = 0x190
-SW1 = 1<<13
-SW2 = 1<<12
-SW3 = 1<<15
-SW4 = 1<<14
-LED1 = 1<<18
-LED2 = 1<<16
-LED3 = 1<<19
-LED4 = 1<<17
-with open("/dev/mem", "r+b" ) as f:
-  mem = mmap(f.fileno(), GPIO1_size, offset=GPIO1_offset)
+Authors Donald Hau.
 
-packed_reg = mem[GPIO_OE:GPIO_OE+4]
-reg_status = struct.unpack("<L", packed_reg)[0]
-reg_status &= ~(LED1)
-mem[GPIO_OE:GPIO_OE+4] = struct.pack("<L", reg_status)
-try:
-  while(True):
-    mem[GPIO_SETDATAOUT:GPIO_SETDATAOUT+4] = struct.pack("<L", LED1)
-    time.sleep(0.5)
-    mem[GPIO_CLEARDATAOUT:GPIO_CLEARDATAOUT+4] = struct.pack("<L", LED1)
-    time.sleep(0.5)
-except KeyboardInterrupt:
-  mem.close()
+"""
+import gpiod
+import sys
+import time
+
+
+chip = gpiod.Chip('gpiochip1')
+buttons=[13,12,15,14] # P8_11, P8_12, P8_15, P8_16
+leds = [18,16,19,17] # P9_14, P9_15, P9_16, P9_23
+
+
+CONSUMER='getset'
+CHIP='1'
+buttons=[13,12,15,14] # P8_11, P8_12, P8_15, P8_16
+leds = [18,16,19,17] # P9_14, P9_15, P9_16, P9_23
+
+def print_event(event):
+    if event.type == gpiod.LineEvent.RISING_EDGE:
+        evstr = ' RISING EDGE'
+    elif event.type == gpiod.LineEvent.FALLING_EDGE:
+        evstr = 'FALLING EDGE'
+    else:
+        raise TypeError('Invalid event type')
+
+    print('event: {} offset: {} timestamp: [{}.{}]'.format(evstr,
+                                                           event.source.offset(),
+                                                           event.sec, event.nsec))
+
+chip = gpiod.Chip(CHIP)
+
+getlines = chip.get_lines(buttons)
+getlines.request(consumer=CONSUMER, type=gpiod.LINE_REQ_EV_BOTH_EDGES)
+
+setlines = chip.get_lines(leds)
+setlines.request(consumer=CONSUMER, type=gpiod.LINE_REQ_DIR_OUT)
+
+print("Hit ^C to stop")
+
+while True:
+    ev_lines = getlines.event_wait(sec=1)
+    if ev_lines:
+        for line in ev_lines:
+            event = line.event_read()
+            # print_event(event)
+    vals = getlines.get_values()
+    
+    # for val in vals:
+    #     print(val, end=' ')
+    # print('\r', end='')
+
+    setlines.set_values(vals)
+
