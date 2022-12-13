@@ -78,11 +78,13 @@ class EtchASketch:
         self.move_cursor(0,-1)
 
     def get_input(self):
-        vals = self.lines.get_values()
-        for k in range(4):
-            if vals[k] != 0:
-                self.use_input(k)
-                time.sleep(0.25)
+        input = self.lines.eventwait(sec=1)
+        if input:
+            vals = self.lines.get_values()
+            for k in range(4):
+                if vals[k] != 0:
+                    self.use_input(k)
+                    # time.sleep(0.25)
 
     def use_input(self, button_number):
         y = self.window.getyx()[0]
