@@ -57,7 +57,7 @@ class EtchASketch:
     def button_setup(self):     
         chip = gpiod.Chip(CHIP)
         self.lines = chip.get_lines(buttons)
-        self.lines.request(consumer='get', type=gpiod.LINE_REQ_DIR_IN)
+        self.lines.request(consumer='get', type=gpiod.LINE_REQ_EV_BOTH_EDGES)
     
     def array_setup(self, y:int=1, x:int=3):
         self.window.clear()
