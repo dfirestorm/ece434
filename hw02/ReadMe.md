@@ -56,3 +56,20 @@ this program can be run with the command:
 it requires than the standard python utilities and the ability to print. 
 It also requires 4 buttons. 
 
+# hw02 grading
+
+| Points      | Description |
+| ----------- | ----------- |
+|  2/2 | Buttons and LEDs 
+|  8/8 | Etch-a-Sketch works
+|      | Measuring a gpio pin on an Oscilloscope 
+|  2/2 | Questions answered
+|  1/4 | Table complete
+|  2/2 | gpiod
+|      | Security
+|  0/1 | ssh port 
+|  0/1 | fail2ban
+| 14/20   | **Total**
+
+
+Max voltage is too small.  Some tables are missing.
