@@ -44,7 +44,28 @@ Anything shorter than this is generally negligible waiting
 
 ### python toggles
 
+## program
+in gpio_tests, python_led_toggle.py will toggle P9_14 at a very fast rate. it requires sudo as it uses mmap but runs very fast
+## questions
+1. What period and frequency is it?
+ the period is 207 us or 4.82 kHz
+2. Run htop and see how much processor you are using.
+ this program is using 60.2% processor
+3. Present the shell script and Python script results in a table for easy comparison
 
+
+### c toggles
+
+## program
+1. What period and frequency is it?
+ the period is 207 us or 4.82 kHz
+2. Run htop and see how much processor you are using.
+ this program is using 60.2% processor
+## questions
+|program | delay | period | processor usage |
+|-----------|------|---------|-----------------|
+|python | 1us | 206 us | 60.9 |
+|shell | 1us | 12.442 ms | 14.9| 
 
 ## Etch - A - Sketch
 
