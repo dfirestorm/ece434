@@ -42,7 +42,8 @@ Anything shorter than this is generally negligible waiting
 11. What's the shortest period you can get?
     with 0.0001 wait, period is 12.977 ms with sh
 
-### timing comparison
+### python toggles
+
 
 
 ## Etch - A - Sketch
@@ -56,6 +57,13 @@ this program can be run with the command:
 it requires than the standard python utilities and the ability to print. 
 It also requires 4 buttons. 
 
+## Security
+
+### SSH
+ I have changed the ssh port but immediately reset it due to vs code requiring ssh. 
+### fail2ban
+ fail2ban has been installed and enabled, with a 15s timeout after 2 failed attempts
+ 
 # hw02 grading
 
 | Points      | Description |
