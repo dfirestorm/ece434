@@ -58,14 +58,17 @@ in gpio_tests, python_led_toggle.py will toggle P9_14 at a very fast rate. it re
 
 ## program
 1. What period and frequency is it?
- the period is 207 us or 4.82 kHz
+ the period is 341.05 us or 2.938 kHz
 2. Run htop and see how much processor you are using.
- this program is using 60.2% processor
+ this program is using 83.1% processor
 ## questions
 |program | delay | period | processor usage |
 |-----------|------|---------|-----------------|
 |python | 1us | 206 us | 60.9 |
 |shell | 1us | 12.442 ms | 14.9| 
+|c toggle gpio | 1us | 341.05 us | 83.1|
+|c lseek | 1us | | |
+
 
 ## Etch - A - Sketch
 
