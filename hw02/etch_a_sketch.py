@@ -57,7 +57,8 @@ class EtchASketch:
     def button_setup(self):     
         chip = gpiod.Chip(CHIP)
         self.lines = chip.get_lines(buttons)
-        self.lines.request(consumer='get', type=gpiod.LINE_REQ_EV_BOTH_EDGES)
+        self.lines.request(consumer='getset', type=gpiod.LINE_REQ_EV_RISING_EDGE)
+        self.last_vals = self.lines.get_values()
     
     def array_setup(self, y:int=1, x:int=3):
         self.window.clear()
@@ -78,17 +79,19 @@ class EtchASketch:
         self.move_cursor(0,-1)
 
     def get_input(self):
-        input = self.lines.eventwait(sec=1)
+        input = self.lines.event_wait(sec=1)
         if input:
             vals = self.lines.get_values()
             for k in range(4):
-                if vals[k] != 0:
-                    self.use_input(k)
-                    # time.sleep(0.25)
+                if vals[k] != self.last_vals[k]:
+                    if vals[k] != 0:
+                        self.use_input(k)
+                    self.last_vals = vals
+                    # time.sleep(0.1)
+        # else:
+        #     self.last_vals = vals
 
-    def use_input(self, button_number):
-        y = self.window.getyx()[0]
-        x = self.window.getyx()[1]      
+    def use_input(self, button_number): 
         if button_number == 1:
             self.move_grid(-1,0)
             self.write_cursor()
@@ -108,11 +111,10 @@ class EtchASketch:
     def move_cursor(self,y_off,x_off):
         y = self.window.getyx()[0]
         x = self.window.getyx()[1]
-        new_y = constrain(y + y_off, 1, self.maxY+1)
+        new_y = constrain(y + y_off, 1, self.maxY)
         new_x = constrain(x + x_off, 3, self.maxX*2+1)
         self.window.move(new_y,new_x)
     def run(self):
-        self.get_input()
         while self.ended == 0:
             self.get_input()
             self.window.refresh()
