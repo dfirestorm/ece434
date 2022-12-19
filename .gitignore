@@ -2,3 +2,4 @@ lib/*
 bin/*
 hw02/gpio_tests/toggle0
 hw02/gpio_tests/toggle1
+hw02/gpio_tests/togglegpio
