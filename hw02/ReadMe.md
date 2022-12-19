@@ -9,7 +9,7 @@ LEDS are on header P9, pins 14,15,16,23
 this program maps each button to a led. it uses the gpiod library to do so. 
 ### Measuring GPIO pins via oscilloscope
 1. What's the min and max voltage?
-    the minimum and maximum voltages are 0V and 320 mV approximately
+    the minimum and maximum voltages are 0V and 3.5V approximately
 2. What period and frequency is it?
     the period is 290 ms and the frequency is 3.417 Hz
 3. How close is it to 100ms?
