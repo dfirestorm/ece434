@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """
-Etch A Sketch.`
+Etch A Sketch.
 
 Authors Donald Hau.
 
 """
 
-import Adafruit_BBIO.GPIO as GPIO
-from Adafruit_BBIO.Encoder import RotaryEncoder, eQEP2, eQEP1
 import smbus
 import time
 
@@ -29,8 +27,8 @@ class EtchASketch:
         self.setup()
         self.render()
         self.ended = 0
-        self.pos1 = 0
-        self.pos2 = 0
+        self.left_pos = 0
+        self.right_pos = 0
 
     def setup(self):
         self.bus = smbus.SMBus(2)  # Use i2c bus 1
@@ -45,47 +43,55 @@ class EtchASketch:
     def array_setup(self):
         self.output = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+        self.write_cursor()
     
-    def control_setup(self):
-        self.encoder1 = RotaryEncoder(eQEP1)
-        self.encoder1.setAbsolute()
-        self.encoder1.enable()
-        self.encoder1.frequency = 1000
-        
-        self.encoder2 = RotaryEncoder(eQEP2)
-        self.encoder2.setAbsolute()
-        self.encoder2.enable()
-        self.encoder2.frequency = 1000
-        
     def write_cursor(self):
-        self.output[1+self.x*2] =self.output[1+self.x*2] | 2**(self.y)
-        #print(self.x, self.y)
-        #print(self.output)
-        
-    def get_position(self):
-        self.pos1 = self.encoder1.position
-        self.pos2 = self.encoder2.position
-    
+        self.output[self.x] += 1 << self.y
+
+    def control_setup(self):
+        left_counter = '/dev/bone/counter/1/count0'
+        right_counter = '/dev/bone/counter/2/count0'
+        maxCount = 1000000
+        with open(f'{left_counter}/ceiling', 'w') as f:
+            f.write(maxCount)
+        with open(f'{right_counter}/ceiling', 'w') as f:
+            f.write(maxCount)
+        with open(f'{left_counter}/enable', 'w') as f:
+            f.write('1'))
+        with open(f'{right_counter}/enable', 'w') as f:
+            f.write('1')
+        self.left_file = open(f'{left_counter}/count', 'r')
+        self.right_file = open(f'{right_counter}/count', 'r')
+        self.get_enc_position()
+
+    def get_enc_position(self):
+        self.left_pos = read_data(self.left_file)
+        self.right_pos = read_data(self.right_file)
+
     def get_input(self):
-        if self.encoder1.position > self.pos1:
-            if self.y != 0:
-                self.y -= 1
+        #write code to determine direction to move here
+        
+
+
+    def use_input(self, button_number): 
+        if button_number == 1:
+            self.move_cursor(-1,0)
             self.write_cursor()
-        elif self.encoder2.position > self.pos2:
-            if self.x != 0:
-                self.x -= 1
+        elif button_number == 0:
+            self.move_cursor(0,-1)
             self.write_cursor()
-        elif self.encoder1.position < self.pos1:
-            if self.y != self.maxY:
-                self.y += 1
+        elif button_number == 2:
+            self.move_cursor(1,0)
             self.write_cursor()
-        elif self.encoder2.position < self.pos2:
-            if self.x != self.maxX:
-                self.x += 1
+        elif button_number == 3:
+            self.move_cursor(0,1)
             self.write_cursor()
-        else:
-            return
-        self.get_position()
+    
+    def move_cursor(self,y_off,x_off):
+        new_y = constrain(self.y + y_off, 0, self.maxY)
+        new_x = constrain(self.x + x_off, 0, self.maxX)
+        self.y = new_y
+        self.x = new_x
 
     def render(self):
         self.bus.write_i2c_block_data(self.matrix, 0, self.output)
@@ -97,13 +103,20 @@ class EtchASketch:
             self.render()
             time.sleep(.05)
             
+def constrain(val, min_val, max_val):
+    return(min(max_val, max(min_val, val)))
+
+def read_data(file):
+    file.seek(0)
+    data = file.read()[:-1]
+    return data
 
 def play():
     s = ""
     while s != "n":
         game = EtchASketch()
         game.run()
-        s = str(input("Would you like to change board size? y/n"))[0]
+        s = str(input("Would you like to exit? y/n"))[0]
 
 
 main()

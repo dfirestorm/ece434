@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Etch A Sketch.`
+Etch A Sketch.
 
 Authors Donald Hau.
 
@@ -40,7 +40,6 @@ class EtchASketch:
         self.status = []
         self.setup()
         self.ended = 0
-        self.guessed = ""
 
     def setup(self):
         self.window.addstr(0,0,"Use the buttons to control the cursor")
