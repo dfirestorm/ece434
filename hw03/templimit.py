@@ -26,7 +26,7 @@ def print_output_2():
     print("Alert: temp 2 is " + str(temp), end="\r")
 
 def print_no_error(vals):
-    print(f"Neither temp exceeds limits, vals of {vals}", end="\r")
+    print(f"Neither temp exceeds limits", end="\r")
     
 # Set the GPIO pins:
 
