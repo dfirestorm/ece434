@@ -8,7 +8,7 @@ Authors Donald Hau.
 
 
 
-import curses
+import curses, os
 import gpiod,time
 
 # init paramaters
@@ -16,6 +16,7 @@ CHIP = '1'
 buttons=[13,12,15,14] # P8_11, P8_12, P8_15, P8_16
 
 def main():
+    # os.system("& (python3 ~/ece434/hw04/flask_gpio.py)")
     curses.wrapper(play)
 
 def play(window):
