@@ -24,7 +24,7 @@ LED4 = 1<<31 # P9_13, GPIO0 31
 SW1 = 1<<13 # P8_11, GPIO 1 13
 SW2 = 1<<12 # P8_12, GPIO 1 12
 SW3 = 1<<15 # P8_15, GPIO 1 15
-SW1 = 1<<14 # P8_16, GPIO 1 14
+SW4 = 1<<14 # P8_16, GPIO 1 14
 
 
 with open("/dev/mem", "r+b" ) as f:
