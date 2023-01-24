@@ -37,20 +37,26 @@ def index():
 @app.route("/<deviceName>/<action>")
 def action(deviceName, action):
 	devNumber = int(deviceName[-1])
+	values = setlines.get_values()
 	if action == "on":
-		setlines.set_values([1])[devNumber]
+		values[devNumber] = 1
+		setlines.set_values(values)
 	if action == "off":
-		setlines.set_values([0])[devNumber]
+		values[devNumber] = 0
+		setlines.set_values(values)
 	if action == "toggle":
-		setlines.set_values([1])[devNumber]
+		values[devNumber] = 1
+		setlines.set_values(values)
 		time.sleep(0.2)
-		setlines.set_values([0])[devNumber]
+		values[devNumber] = 0
+		setlines.set_values(values)
+	
 
 	templateData = {
 	 	'button_0'  : setlines.get_values()[0],
 		'button_1'  : setlines.get_values()[1],
 		'button_2'  : setlines.get_values()[2],
-		'button_3'  : setlines.set_values()[3],
+		'button_3'  : setlines.get_values()[3],
   		'ledRed_0'  : getlines.get_values()[0]
 		}
 	return render_template('index.html', **templateData)

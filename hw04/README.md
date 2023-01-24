@@ -11,4 +11,12 @@
 
 # gpio via mmap
  python_LED_toggle toggles as fast as possible. 
- button_and_light reads 2 switches to control 2 LEDs. 
+ button_and_light reads 4 switches to control 4 LEDs across 2 gpio ports
+ Both require sudo. 
+ For speed, they're much much faster than gpiod. Their speed is mostly limited by the python GIL or processor speed, rather than file io speed
+
+# i2c via kernel driver
+ kernel_i2c.py will read the i2c sensors via a kernel driver. 
+
+# 2.4 " TFT LCD
+ the LCD has been set up on SPI1. displaying images works nicely though mplayer doesn't. In addition to a USB keyboard, this allows for running the bone without a PC. 

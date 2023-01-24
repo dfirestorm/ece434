@@ -17,6 +17,7 @@ GPIO1_size = 0x4804cfff-GPIO1_offset
 GPIO_OE = 0x134
 GPIO_SETDATAOUT = 0x194
 GPIO_CLEARDATAOUT = 0x190
+GPIO_DATAIN = 0x138
 LED1 = 1<<18 # P9_14, GPIO1 18
 LED2 = 1<<16 # P9_15, GPIO1 16
 LED3 = 1<<30 # P9_11, GPIO0 30
@@ -33,38 +34,38 @@ with open("/dev/mem", "r+b" ) as f:
 
 packed_reg1 = mem1[GPIO_OE:GPIO_OE+4]
 reg_status1 = struct.unpack("<L", packed_reg1)[0]
+reg_status1 &= ~(LED1)
+reg_status1 &= ~(LED2)
 mem1[GPIO_OE:GPIO_OE+4] = struct.pack("<L", reg_status1)
 packed_reg0 = mem0[GPIO_OE:GPIO_OE+4]
 reg_status0 = struct.unpack("<L", packed_reg0)[0]
+reg_status0 &= ~(LED3)
+reg_status0 &= ~(LED4)
 mem0[GPIO_OE:GPIO_OE+4] = struct.pack("<L", reg_status0)
 try: 
   while True:
     #check values 
-    if reg_status1 & SW1:
+    packed_in = mem1[GPIO_DATAIN:GPIO_DATAIN+4]
+    gpio_in = struct.unpack("<L", packed_in)[0]
+    #toggle gpios
+    if gpio_in & SW1:
       mem1[GPIO_SETDATAOUT:GPIO_SETDATAOUT+4] = struct.pack("<L", LED1)
     else: 
       mem1[GPIO_CLEARDATAOUT:GPIO_CLEARDATAOUT+4] = struct.pack("<L", LED1)
-    if reg_status1 & SW2:
+    if gpio_in & SW2:
       mem1[GPIO_SETDATAOUT:GPIO_SETDATAOUT+4] = struct.pack("<L", LED2)
     else:
       mem1[GPIO_CLEARDATAOUT:GPIO_CLEARDATAOUT+4] = struct.pack("<L", LED2)
-    if reg_status1 & SW3:
+    if gpio_in & SW3:
       mem0[GPIO_SETDATAOUT:GPIO_SETDATAOUT+4] = struct.pack("<L", LED3)
     else:
       mem0[GPIO_CLEARDATAOUT:GPIO_CLEARDATAOUT+4] = struct.pack("<L", LED3)
-    if reg_status1 & SW4:
+    if gpio_in & SW4:
       mem0[GPIO_SETDATAOUT:GPIO_SETDATAOUT+4] = struct.pack("<L", LED4)
     else:
       mem0[GPIO_CLEARDATAOUT:GPIO_CLEARDATAOUT+4] = struct.pack("<L", LED4)
     time.sleep(0.05)
 
-    #update values?
-    packed_reg1 = mem1[GPIO_OE:GPIO_OE+4]
-    reg_status1 = struct.unpack("<L", packed_reg1)[0]
-    mem1[GPIO_OE:GPIO_OE+4] = struct.pack("<L", reg_status1)
-    packed_reg0 = mem0[GPIO_OE:GPIO_OE+4]
-    reg_status0 = struct.unpack("<L", packed_reg0)[0]
-    mem0[GPIO_OE:GPIO_OE+4] = struct.pack("<L", reg_status0)
 except KeyboardInterrupt:
   mem1.close()
   mem0.close()
