@@ -20,3 +20,18 @@
 
 # 2.4 " TFT LCD
  the LCD has been set up on SPI1. displaying images works nicely though mplayer doesn't. In addition to a USB keyboard, this allows for running the bone without a PC. 
+
+ # hw04 grading
+
+| Points      | Description | |
+| ----------- | ----------- | - |
+|  2/2 | Memory map 
+|  4/4 | mmap()
+|  4/4 | i2c via Kernel
+|  0/5 | Etch-a-Sketch via flask | *Not demo'ed*
+|  5/5 | LCD display
+|      | Extras
+| 11/20 | **Total**
+Late -4
+*My comments are in italics. --may*
+
