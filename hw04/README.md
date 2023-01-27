@@ -21,7 +21,10 @@
 # 2.4 " TFT LCD
  the LCD has been set up on SPI1. displaying images works nicely though mplayer doesn't. In addition to a USB keyboard, this allows for running the bone without a PC. 
 
- # hw04 grading
+# etch a sketch
+ etch a sketch has been improved to allow flask input. 
+ flask uses pins P8_7-10 as outputs for GPIO and Etch a Sketch uses P8_11,12,15,16 as inputs so wire them to each other to allow for control via flask. 
+# hw04 grading
 
 | Points      | Description | |
 | ----------- | ----------- | - |

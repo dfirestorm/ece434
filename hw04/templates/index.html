@@ -6,19 +6,10 @@
   <body> 
 		<h1>GPIO Control</h1> 
 		<h2> Sensor Status </h2> 
-		<h3> BUTTONS ==>  {{ button  }}</h3>
-				<a href="/button_0/toggle"class="button">LEFT</a> 
-				<a href="/button_1/toggle" class="button">UP</a>   
-				<a href="/button_2/toggle"class="button">DOWN</a> 
-				<a href="/button_3/toggle" class="button">RIGHT</a>  
-		<h2> Actuator Status & Control </h2> 
-		<h3> RED LED ==>  {{ ledRed  }}  ==>   
-			{% if  ledRed   == 1 %} 
-				<a href="/ledRed_0/off"class="button">TURN OFF</a> 
-			{% else %} 
-				<a href="/ledRed_0/on" class="button">TURN ON</a>  
-			{% endif %}	 
-		</h3> 
-		</h3> 
+		<h3> BUTTONS  {{ button  }}</h3>
+			<h4>	<a href="/button_0/toggle"class="button">LEFT</a> 
+				<a href="/button_1/toggle" class="button">UP</a>   </h4>
+			<h4> <a href="/button_2/toggle"class="button">DOWN</a> 
+				<a href="/button_3/toggle" class="button">RIGHT</a>  </h4>
   </body> 
 </html>
