@@ -1,7 +1,7 @@
 # hw05
 
 ## ebc Make exercise
-
+    Done, loaded into the folder as Makefile
 ## kernel exercises
 
 ## Etch A Sketch Updates
