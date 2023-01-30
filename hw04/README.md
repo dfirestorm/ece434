@@ -10,8 +10,8 @@
    44E0_7000 GPIO0
 
 # gpio via mmap
- python_LED_toggle toggles as fast as possible. 
- button_and_light reads 4 switches to control 4 LEDs across 2 gpio ports
+ python_LED_toggle toggles P9_14 as fast as possible. 
+ button_and_light reads 4 switches to control 4 LEDs across 2 gpio ports - specifically P8_11,12,15,16 to control P9_11,13,14,15
  Both require sudo. 
  For speed, they're much much faster than gpiod. Their speed is mostly limited by the python GIL or processor speed, rather than file io speed
 
