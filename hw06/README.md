@@ -28,4 +28,4 @@ watching the video, my answers to the questions are as follows:
     11. Why can the External event in Figure 4 start sooner?
 
 ### preempt rt
- kernel installed, tests run and placed in kernel subfolder
+ kernel installed, tests run and placed in rt subfolder
