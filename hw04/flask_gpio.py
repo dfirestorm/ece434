@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3 
 # From: https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d
 # modified by donald hau
 import gpiod
