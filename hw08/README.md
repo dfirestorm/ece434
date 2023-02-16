@@ -43,3 +43,14 @@ none of the commands actually require make start -  the make with target will au
  the analog wave worked fairly nice. 
 
 
+# hw08 grading
+
+| Points      | Description | |
+| ----------- | ----------- |-|
+| 14/14 | PRU
+|  2/2 | Controlling the PWM Frequency - optional
+|  2/2 | Reading an Input at Regular Intervals - optional
+|  2/2 | Analog Wave Generator - optional
+| 20/20 | **Total**
+
+*My comments are in italics. --may*
