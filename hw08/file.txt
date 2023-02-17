@@ -1,0 +1,5 @@
+['./cmd.py', 'arg1', 'arg3', 'arg4']
+./cmd.py
+arg1
+arg3
+arg4

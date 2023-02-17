@@ -1,0 +1,10 @@
+[Unit]
+Description=flask server 
+
+[Service]
+WorkingDirectory=/home/debian/ece434/hw04
+ExecStart=/home/debian/ece434/hw04/flask_gpio.py
+SyslogIdentifier=flask
+
+[Install]
+WantedBy=multi-user.target
