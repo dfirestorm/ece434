@@ -40,7 +40,7 @@ none of the commands actually require make start -  the make with target will au
  input delay was approx 20 ns both edges
 
 ### analog wave generator
- the analog wave worked fairly nice. 
+ the analog wave worked fairly nice. the captures are in this folder. 
 
 
 # hw08 grading
