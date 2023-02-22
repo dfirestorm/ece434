@@ -9,4 +9,4 @@ I mostly finished my wiki, it's [here](https://elinux.org/ECE434_Project_-_Audio
 the github link to my project is [here](https://github.com/dfirestorm/bone-audio-display)
 
 ### hackster.io
-I haven't done hackster.io yet.
+the hackster.io link to my project is [here](https://www.hackster.io/donald-hau/beagleboard-audio-spectrum-display-6a0568)
